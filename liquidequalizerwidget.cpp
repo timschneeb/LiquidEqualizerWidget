@@ -57,8 +57,8 @@ QColor LiquidEqualizerWidget::getAccentColor() const
 
 void LiquidEqualizerWidget::setAccentColor(const QColor &accentColor)
 {
-    emit redrawRequired();
     mAccentColor = accentColor;
+    emit redrawRequired();
 }
 
 bool LiquidEqualizerWidget::getAlwaysDrawHandles() const
@@ -68,8 +68,8 @@ bool LiquidEqualizerWidget::getAlwaysDrawHandles() const
 
 void LiquidEqualizerWidget::setAlwaysDrawHandles(bool alwaysDrawHandles)
 {
-    emit redrawRequired();
     mAlwaysDrawHandles = alwaysDrawHandles;
+    emit redrawRequired();
 }
 
 bool LiquidEqualizerWidget::getGridVisible() const
@@ -88,6 +88,7 @@ void LiquidEqualizerWidget::mousePressEvent(QMouseEvent *event){
 }
 void LiquidEqualizerWidget::mouseReleaseEvent(QMouseEvent *event){
     mHoldDown = false;
+    emit bandsUpdated();
     repaint();
 }
 void LiquidEqualizerWidget::mouseMoveEvent(QMouseEvent *event){
@@ -114,9 +115,11 @@ void LiquidEqualizerWidget::keyPressEvent(QKeyEvent *event) {
         if(event->key() == Qt::Key::Key_Up){
             float cur = getBand(mKey_CurrentIndex);
             setBand(mKey_CurrentIndex,cur >= 12.0 ? 12.0 : cur + 0.5,false,true);
+            emit bandsUpdated();
         } else if(event->key() == Qt::Key::Key_Down){
             float cur = getBand(mKey_CurrentIndex);
             setBand(mKey_CurrentIndex,cur <= -12.0 ? -12.0 : cur - 0.5,false,true);
+            emit bandsUpdated();
         } else if(event->key() == Qt::Key::Key_Left && mKey_LastMousePos == QCursor::pos()){
             if(mKey_CurrentIndex > 0)
                 mKey_CurrentIndex--;

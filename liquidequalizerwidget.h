@@ -56,6 +56,8 @@ class LiquidEqualizerWidget : public QWidget
 
 signals:
     void redrawRequired();
+    void bandsUpdated();
+
 protected:
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
