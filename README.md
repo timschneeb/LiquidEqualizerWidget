@@ -1,5 +1,8 @@
 # LiquidEqualizerWidget
 Modern 10-band equalizer for C++/Qt
+
+Check my other Qt widgets/add-ons out: <https://timschneeberger.me/qt>
+
 ## Documentation
 
 #### Setting a single band
