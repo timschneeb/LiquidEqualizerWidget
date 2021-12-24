@@ -5,6 +5,7 @@
 #include <math.h>
 #include <float.h>
 
+namespace Interpolation {
 int upper_bound(double *a, int n, double x)
 {
     int l = 0;
@@ -194,4 +195,5 @@ void makima(ierper *intp, double * x, double * y, int n, int left_endpoint_deriv
 	else
 		intp->s[n - 1] = right_endpoint_derivative;
 	cubic_hermite_init(&intp->cb, x, y, intp->s, n);
+}
 }

@@ -1,6 +1,6 @@
 SOURCES += \
-    $$PWD/3rdparty/JdspImpResToolbox.c \
-    $$PWD/3rdparty/interpolation.c \
+    $$PWD/3rdparty/JdspImpResToolbox.cpp \
+    $$PWD/3rdparty/interpolation.cpp \
     $$PWD/src/LiquidEqualizerWidget.cpp \
     $$PWD/main.cpp
 

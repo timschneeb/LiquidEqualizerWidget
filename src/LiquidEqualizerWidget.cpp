@@ -18,9 +18,7 @@
 
 #include "LiquidEqualizerWidget.h"
 
-extern "C" {
 #include "../3rdparty/JdspImpResToolbox.h"
-}
 
 #include <QDebug>
 #include <QLinearGradient>
@@ -256,7 +254,7 @@ void LiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 	QPainterPath frequencyResponse;
 	float        x, y;
 
-    ComputeEqResponse(mFreq.data(), mLevels, 1, RESOLUTION, dispFreq, response);
+    JdspImpResToolbox::ComputeEqResponse(mFreq.data(), mLevels, 1, RESOLUTION, dispFreq, response);
 
 	for (int i = 0; i < RESOLUTION; i++)
 	{
