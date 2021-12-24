@@ -310,8 +310,6 @@ void LiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 	mFrequencyResponseHighlight.setPen(QPen(QBrush(mAccentColor), 3, Qt::PenStyle::SolidLine, Qt::PenCapStyle::SquareCap));
 	mFrequencyResponseHighlight.setRenderHint(QPainter::RenderHint::Antialiasing, true);
 	mFrequencyResponseHighlight.drawPath(frequencyResponse);
-
-	// Take a font sample from another painter for later
 	mFrequencyResponseHighlight.end();
 
 	for (int i = 0; i < BANDS_NUM; i++)
@@ -320,9 +318,9 @@ void LiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 		double  x         = projectX(frequency) * mWidth;
 		double  y         = projectY(mLevels[i]) * mHeight;
 		QString frequencyText;
-        frequencyText.asprintf(frequency < 1000 ? "%.0f" : "%.0fk", frequency < 1000 ? frequency : frequency / 1000);
+        frequencyText.sprintf(frequency < 1000 ? "%.0f" : "%.0fk", frequency < 1000 ? frequency : frequency / 1000);
 		QString gainText;
-        gainText.asprintf("%.1f", mLevels[i]);
+        gainText.sprintf("%.1f", mLevels[i]);
 
 		if ((mManual && i == mSelectedBand && mHoldDown) || mAlwaysDrawHandles)
 		{
@@ -338,7 +336,8 @@ void LiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 
 		QFont font = mControlBarText.font();
 		font.setPointSize(8);
-		mControlBarText.setFont(font);
+
+        mControlBarText.setFont(font);
 		mControlBarText.drawText(x, 19,              gainText);
 		mControlBarText.drawText(x, mHeight - 16.0f, frequencyText);
 		mControlBarText.end();
