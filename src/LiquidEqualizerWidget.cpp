@@ -19,7 +19,7 @@
 #include "LiquidEqualizerWidget.h"
 
 extern "C" {
-#include "3rdparty/JdspImpResToolbox.h"
+#include "../3rdparty/JdspImpResToolbox.h"
 }
 
 #include <QDebug>
