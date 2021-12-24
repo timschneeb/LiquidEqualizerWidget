@@ -15,18 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-    3rdparty/JdspImpResToolbox.c \
-    3rdparty/interpolation.c \
-    LiquidEqualizerWidget.cpp \
-    main.cpp
-    main.cpp
-
-HEADERS += \
-    3rdparty/JdspImpResToolbox.h \
-    3rdparty/interpolation.h \
-    EqConfig.h \
-    LiquidEqualizerWidget.h
+include(LiquidEqualizerWidget.pri)
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
