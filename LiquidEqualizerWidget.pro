@@ -16,13 +16,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    biquad.cpp \
-    liquidequalizerwidget.cpp \
+    3rdparty/JdspImpResToolbox.c \
+    3rdparty/interpolation.c \
+    LiquidEqualizerWidget.cpp \
+    main.cpp
     main.cpp
 
 HEADERS += \
-    biquad.h \
-    liquidequalizerwidget.h
+    3rdparty/JdspImpResToolbox.h \
+    3rdparty/interpolation.h \
+    EqConfig.h \
+    LiquidEqualizerWidget.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

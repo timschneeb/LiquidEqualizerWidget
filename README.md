@@ -1,5 +1,5 @@
 # LiquidEqualizerWidget
-Modern 10-band equalizer for C++/Qt
+Modern 15-band equalizer for C++/Qt
 
 Check my other Qt widgets/add-ons out: <https://timschneeberger.me/qt>
 
@@ -11,7 +11,7 @@ Check my other Qt widgets/add-ons out: <https://timschneeberger.me/qt>
 void setBand(int band, float value, bool animate = true);
 ```
 
-Sets band (0-9) to specified value.
+Sets band (0-14) to specified value.
 
 _Optional parameters_:
 
@@ -31,7 +31,7 @@ Same as `setBand` except it takes a vector of floats is an input and sets them a
 float getBand(int band);
 ```
 
-Returns value of band (0-9).
+Returns value of band (0-14).
 
 #### Getting multiple bands
 
