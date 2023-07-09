@@ -158,7 +158,7 @@ private:
 
         for (int i = 0; i < band_num; i++)
 		{
-			double freq     = 15.625 * pow(1.6, i + 1);
+            double freq     = 15.625 * pow(1.6, i + 1);
 			double cx       = projectX(freq) * mWidth;
 			double distance = abs(cx - pos_x);
 
