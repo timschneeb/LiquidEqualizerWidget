@@ -16,22 +16,22 @@
     https://github.com/vipersaudio/viper4android_fx
  */
 
-#include "LiquidEqualizerWidget.h"
+#include "LiquidCompanderWidget.h"
 
 #include "../3rdparty/JdspImpResToolbox.h"
 
-LiquidEqualizerWidget::LiquidEqualizerWidget(QWidget *parent) : BaseLiquidEqualizerWidget(15, 21, 24000,  -12.0, 12.0, 128, 3, parent){}
+LiquidCompanderWidget::LiquidCompanderWidget(QWidget *parent) : BaseLiquidEqualizerWidget(7, 21, 24000, -1.2, 1.2, 128, 0.2, parent){}
 
-LiquidEqualizerWidget::~LiquidEqualizerWidget(){}
+LiquidCompanderWidget::~LiquidCompanderWidget(){}
 
-void LiquidEqualizerWidget::computeCurve(const double *freqs, double *gains, int resolution, double *dispFreq, float *response)
+void LiquidCompanderWidget::computeCurve(const double *freqs, double *gains, int resolution, double *dispFreq, float *response)
 {
-    JdspImpResToolbox::ComputeEqResponse(freqs, gains, 1, resolution, dispFreq, response);
+    JdspImpResToolbox::ComputeCompResponse(freqs, gains, resolution, dispFreq, response);
 }
 
-QVector<double> LiquidEqualizerWidget::getFrequencyPoints()
+QVector<double> LiquidCompanderWidget::getFrequencyPoints()
 {
-    return QVector<double>({ 25.0f, 40.0f, 63.0f, 100.0f, 160.0f, 250.0f, 400.0f, 630.0f, 1000.0f, 1600.0f, 2500.0f, 4000.0f, 6300.0f, 10000.0f, 16000.0f });
+    return QVector<double>({ 95.0f, 200.0f, 400.0f, 800.0f, 1600.0f, 3400.0f, 7500.0f });
 }
 
 

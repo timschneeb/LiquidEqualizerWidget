@@ -13,18 +13,18 @@
  *  ThePBone <tim.schneeberger(at)outlook.de> (c) 2020
  */
 
-#ifndef QFLUENTEQUALIZERWIDGET_H
-#define QFLUENTEQUALIZERWIDGET_H
+#ifndef QFLUENTCOMPANDERWIDGET_H
+#define QFLUENTCOMPANDERWIDGET_H
 
 #include "BaseLiquidEqualizerWidget.h"
 
-class LiquidEqualizerWidget : public BaseLiquidEqualizerWidget
+class LiquidCompanderWidget : public BaseLiquidEqualizerWidget
 {
     Q_OBJECT
 
 public:
-    LiquidEqualizerWidget(QWidget *parent = nullptr);
-	~LiquidEqualizerWidget();
+    LiquidCompanderWidget(QWidget *parent = nullptr);
+	~LiquidCompanderWidget();
 
 protected:
     virtual void computeCurve(const double* freqs, double* gains, int resolution, double* dispFreq, float* response);
@@ -33,4 +33,4 @@ protected:
 
 };
 
-#endif // QFLUENTEQUALIZERWIDGET_H
+#endif // QFLUENTCOMPANDERWIDGET_H
