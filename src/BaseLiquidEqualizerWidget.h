@@ -75,7 +75,7 @@ protected:
 	void            mouseDoubleClickEvent(QMouseEvent *event) override;
 
 private:
-    QList<QVariantAnimation*> anim;
+    QList<QVariantAnimation*> mAnimators;
 
 	QPainter mGridLines;
 	QPainter mControlBarText;
@@ -151,14 +151,14 @@ private:
 		}
 	}
 
-    inline int getIndexUnderMouse(int band_num, int pos_x)
+    inline int getIndexUnderMouse(int pos_x)
 	{
 		int    idx  = 0;
 		double best = 1e8;
 
-        for (int i = 0; i < band_num; i++)
+        for (int i = 0; i < mBandsNum; i++)
 		{
-            double freq     = 15.625 * pow(1.6, i + 1);
+            double freq     = mFreqs[i];
 			double cx       = projectX(freq) * mWidth;
 			double distance = abs(cx - pos_x);
 

@@ -21,6 +21,7 @@
 #include <QDebug>
 #include <QLinearGradient>
 #include <QPainterPath>
+#include <cstring>
 
 using namespace std;
 
@@ -33,11 +34,13 @@ BaseLiquidEqualizerWidget::BaseLiquidEqualizerWidget(int bandsNum, int minFreq, 
 {
     mLevels = new double[mBandsNum];
     mActualLevels = new double[mBandsNum];
+    std::memset(mLevels, 0, mBandsNum);
+    std::memset(mActualLevels, 0, mBandsNum);
 
-    anim.reserve(mBandsNum);
+    mAnimators.reserve(mBandsNum);
     for (int i = 0; i < mBandsNum; i++)
     {
-        anim.append(new QVariantAnimation(this));
+        mAnimators.append(new QVariantAnimation(this));
 	}
 
     dispFreq             = new double[resolution];
@@ -105,7 +108,7 @@ void BaseLiquidEqualizerWidget::mouseDoubleClickEvent(QMouseEvent *event)
 	}
 
 	float dB = reverseProjectY(y);
-    setBand(getIndexUnderMouse(mBandsNum, event->x()), dB, false);
+    setBand(getIndexUnderMouse(event->x()), dB, false);
 }
 
 int BaseLiquidEqualizerWidget::getAnimationDuration() const
@@ -178,14 +181,14 @@ void BaseLiquidEqualizerWidget::mouseMoveEvent(QMouseEvent *event)
 		}
 
 		float dB = reverseProjectY(y);
-        setBand(getIndexUnderMouse(mBandsNum, event->x()), dB, false, true);
+        setBand(getIndexUnderMouse(event->x()), dB, false, true);
 	}
 }
 
 void BaseLiquidEqualizerWidget::keyPressEvent(QKeyEvent *event)
 {
 	QPoint point      = this->mapFromGlobal(QCursor::pos());
-    int    index      = getIndexUnderMouse(mBandsNum, point.x());
+    int    index      = getIndexUnderMouse(point.x());
 
 	QRect  widgetRect = this->geometry();
 	widgetRect.moveTopLeft(this->parentWidget()->mapToGlobal(widgetRect.topLeft()));
@@ -238,7 +241,7 @@ void BaseLiquidEqualizerWidget::keyReleaseEvent(QKeyEvent *event)
 {
 	Q_UNUSED(event)
 	QPoint point = this->mapFromGlobal(QCursor::pos());
-    int index = getIndexUnderMouse(mBandsNum, point.x());
+    int index = getIndexUnderMouse(point.x());
 
 	if (index == mKey_CurrentIndex)
 	{
@@ -345,7 +348,24 @@ void BaseLiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 		mControlBarText.drawText(x, 19,              gainText);
 		mControlBarText.drawText(x, mHeight - 16.0f, frequencyText);
 		mControlBarText.end();
+
+#ifdef UI_DEBUG
+        mGridLines.begin(this);
+        mGridLines.setPen(QPen(Qt::green, 0.75, Qt::PenStyle::SolidLine, Qt::PenCapStyle::SquareCap));
+        mGridLines.setRenderHint(QPainter::RenderHint::Antialiasing, true);
+        mGridLines.drawLine(x, 0, x, mHeight - 1);
+        mGridLines.end();
+#endif
 	}
+
+#ifdef UI_DEBUG
+    auto cursor = mapFromGlobal(QCursor::pos());
+    mGridLines.begin(this);
+    mGridLines.setPen(QPen(Qt::red, 0.75, Qt::PenStyle::SolidLine, Qt::PenCapStyle::SquareCap));
+    mGridLines.setRenderHint(QPainter::RenderHint::Antialiasing, true);
+    mGridLines.drawLine(0, cursor.y(), mWidth - 1, cursor.y());
+    mGridLines.end();
+#endif
 }
 
 void BaseLiquidEqualizerWidget::setBand(int    i,
@@ -360,24 +380,24 @@ void BaseLiquidEqualizerWidget::setBand(int    i,
 
 	if (animate)
 	{
-		if (anim[i] != nullptr)
+        if (mAnimators[i] != nullptr)
 		{
-			anim[i]->stop();
+            mAnimators[i]->stop();
 		}
 
-		anim[i] = new QVariantAnimation(this);
-		anim[i]->setDuration(500);
-		anim[i]->setEasingCurve(QEasingCurve(QEasingCurve::Type::InOutCirc));
-		anim[i]->setStartValue(mLevels[i]);
-		anim[i]->setEndValue(value);
-		anim[i]->setDirection(QVariantAnimation::Direction::Forward);
+        mAnimators[i] = new QVariantAnimation(this);
+        mAnimators[i]->setDuration(500);
+        mAnimators[i]->setEasingCurve(QEasingCurve(QEasingCurve::Type::InOutCirc));
+        mAnimators[i]->setStartValue(mLevels[i]);
+        mAnimators[i]->setEndValue(value);
+        mAnimators[i]->setDirection(QVariantAnimation::Direction::Forward);
 
-        connect(anim[i], QOverload<const QVariant &>::of(&QVariantAnimation::valueChanged), this, [this, i](const QVariant &v) {
+        connect(mAnimators[i], QOverload<const QVariant &>::of(&QVariantAnimation::valueChanged), this, [this, i](const QVariant &v) {
 			mLevels[i] = v.toFloat();
 			repaint();
 		});
 
-		anim[i]->start();
+        mAnimators[i]->start();
 
 	}
 	else

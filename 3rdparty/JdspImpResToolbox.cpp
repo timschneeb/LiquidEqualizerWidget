@@ -1,6 +1,5 @@
 #include "JdspImpResToolbox.h"
 
-#include "EqConfig.h"
 #include "interpolation.h"
 
 #include <stdlib.h>
