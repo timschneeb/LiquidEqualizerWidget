@@ -34,13 +34,13 @@ BaseLiquidEqualizerWidget::BaseLiquidEqualizerWidget(int bandsNum, int minFreq, 
 {
     mLevels = new double[mBandsNum];
     mActualLevels = new double[mBandsNum];
-    std::memset(mLevels, 0, mBandsNum);
-    std::memset(mActualLevels, 0, mBandsNum);
 
     mAnimators.reserve(mBandsNum);
     for (int i = 0; i < mBandsNum; i++)
     {
         mAnimators.append(new QVariantAnimation(this));
+        mLevels[i] = 0;
+        mActualLevels[i] = 0;
 	}
 
     dispFreq             = new double[resolution];
@@ -49,6 +49,7 @@ BaseLiquidEqualizerWidget::BaseLiquidEqualizerWidget(int bandsNum, int minFreq, 
 
     for (int i = 0; i < resolution; i++)
 	{
+        response[i] = 0;
         dispFreq[i] = reverseProjectX(i / (float) (resolution - 1));
 	}
 
@@ -256,8 +257,14 @@ void BaseLiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 	mWidth  = this->width() + 1;
 	mHeight = this->height() + 1;
 
+
+    QColor color = mAccentColor;
+    if(!isEnabled()) {
+        color.setHsl(color.hslHue(), 0, color.lightness());
+    }
+
 	QPainterPath frequencyResponse;
-	float        x, y;
+    float x, y;
 
     if(mFreqs.empty()) {
         mFreqs = getFrequencyPoints();
@@ -287,7 +294,7 @@ void BaseLiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 	frequencyResponseBackground.lineTo(0.0f,   mHeight);
 
 	QLinearGradient gradient(QPoint(width(), 0), QPoint(width(), height()));
-	gradient.setColorAt(0.0, mAccentColor);
+    gradient.setColorAt(0.0, color);
 	gradient.setColorAt(1.0, QColor(0, 0, 0, 0));
 
 	if (mGridVisible)
@@ -315,7 +322,7 @@ void BaseLiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 	mFrequencyResponseBg.end();
 
 	mFrequencyResponseHighlight.begin(this);
-	mFrequencyResponseHighlight.setPen(QPen(QBrush(mAccentColor), 3, Qt::PenStyle::SolidLine, Qt::PenCapStyle::SquareCap));
+    mFrequencyResponseHighlight.setPen(QPen(QBrush(color), 3, Qt::PenStyle::SolidLine, Qt::PenCapStyle::SquareCap));
 	mFrequencyResponseHighlight.setRenderHint(QPainter::RenderHint::Antialiasing, true);
 	mFrequencyResponseHighlight.drawPath(frequencyResponse);
 	mFrequencyResponseHighlight.end();
@@ -332,18 +339,16 @@ void BaseLiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 		if ((mManual && i == mSelectedBand && mHoldDown) || mAlwaysDrawHandles)
 		{
 			mControlBarKnob.begin(this);
-			mControlBarKnob.setBrush(mAccentColor);
-			mControlBarKnob.setPen(mAccentColor.lighter(50));
+            mControlBarKnob.setBrush(color);
+            mControlBarKnob.setPen(color.lighter(50));
 			mControlBarKnob.setRenderHint(QPainter::RenderHint::Antialiasing, true);
 			mControlBarKnob.drawEllipse(x - 8, y - 9, 18.0f, 18.0f);
 			mControlBarKnob.end();
 		}
 
 		mControlBarText.begin(this);
-
 		QFont font = mControlBarText.font();
 		font.setPointSize(8);
-
         mControlBarText.setFont(font);
 		mControlBarText.drawText(x, 19,              gainText);
 		mControlBarText.drawText(x, mHeight - 16.0f, frequencyText);
