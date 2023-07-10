@@ -20,7 +20,7 @@
 
 #include "../3rdparty/JdspImpResToolbox.h"
 
-LiquidCompanderWidget::LiquidCompanderWidget(QWidget *parent) : BaseLiquidEqualizerWidget(7, 21, 24000, -1.2, 1.2, 128, 0.2, parent){}
+LiquidCompanderWidget::LiquidCompanderWidget(QWidget *parent) : BaseLiquidEqualizerWidget(7, 40, 20000, -1.2, 1.2, 128, 0.2, parent){}
 
 LiquidCompanderWidget::~LiquidCompanderWidget(){}
 
