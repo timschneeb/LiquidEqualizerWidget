@@ -261,6 +261,7 @@ void BaseLiquidEqualizerWidget::paintEvent(QPaintEvent *event)
     QColor color = mAccentColor;
     if(!isEnabled()) {
         color.setHsl(color.hslHue(), 0, color.lightness());
+        color.setAlpha(128);
     }
 
 	QPainterPath frequencyResponse;
@@ -300,7 +301,7 @@ void BaseLiquidEqualizerWidget::paintEvent(QPaintEvent *event)
 	if (mGridVisible)
 	{
 		mGridLines.begin(this);
-		mGridLines.setPen(QPen(palette().mid(), 0.75, Qt::PenStyle::SolidLine, Qt::PenCapStyle::SquareCap));
+        mGridLines.setPen(QPen(palette().mid(), isEnabled() ? 0.75 : 0.5, Qt::PenStyle::SolidLine, Qt::PenCapStyle::SquareCap));
 		mGridLines.setRenderHint(QPainter::RenderHint::Antialiasing, true);
 
         float decibel = mMinDb + mHorizLineInterval;
