@@ -17,7 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 include(LiquidEqualizerWidget.pri)
 
-HEADERS += main.cpp
+SOURCES += main.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
