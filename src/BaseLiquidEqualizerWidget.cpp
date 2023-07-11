@@ -112,6 +112,16 @@ void BaseLiquidEqualizerWidget::mouseDoubleClickEvent(QMouseEvent *event)
     setBand(getIndexUnderMouse(event->x()), dB, false);
 }
 
+int BaseLiquidEqualizerWidget::bandsNum() const
+{
+    return mBandsNum;
+}
+
+int BaseLiquidEqualizerWidget::resolution() const
+{
+    return mResolution;
+}
+
 int BaseLiquidEqualizerWidget::getAnimationDuration() const
 {
 	return mAnimationDuration;
@@ -275,7 +285,7 @@ void BaseLiquidEqualizerWidget::paintEvent(QPaintEvent *event)
     for (int i = 0; i < mResolution; i++)
 	{
 		/* Magnitude response, dB */
-		x = precomputeCurveXAxis[i] * mWidth;
+        x = precomputeCurveXAxis[i] * mWidth;
 		y = projectY(response[i]) * mHeight;
 
 		/* Set starting point at first point */

@@ -53,6 +53,9 @@ public:
 	int             getAnimationDuration() const;
 	void            setAnimationDuration(int animationDuration);
 
+    int             resolution() const;
+    int             bandsNum() const;
+
 signals:
 	void            mouseReleased();
 	void            redrawRequired();
@@ -99,7 +102,7 @@ private:
 	int mAnimationDuration  = 500;
 
     int mBandsNum;
-    int mResolution;
+    const int mResolution;
     int mMinFreq;
     int mMaxFreq;
     double mMinDb;
