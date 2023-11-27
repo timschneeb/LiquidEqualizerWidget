@@ -101,7 +101,7 @@ BaseLiquidEqualizerWidget::~BaseLiquidEqualizerWidget()
 
 void BaseLiquidEqualizerWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
-	float y = (float) event->y() / (float) height();
+    float y = (float) event->position().y() / (float) height();
 
 	if (y < 0 || y > 1)
 	{
@@ -109,7 +109,7 @@ void BaseLiquidEqualizerWidget::mouseDoubleClickEvent(QMouseEvent *event)
 	}
 
 	float dB = reverseProjectY(y);
-    setBand(getIndexUnderMouse(event->x()), dB, false);
+    setBand(getIndexUnderMouse(event->position().x()), dB, false);
 }
 
 int BaseLiquidEqualizerWidget::bandsNum() const
@@ -183,16 +183,23 @@ void BaseLiquidEqualizerWidget::mouseReleaseEvent(QMouseEvent *event)
 void BaseLiquidEqualizerWidget::mouseMoveEvent(QMouseEvent *event)
 {
 	if (mHoldDown)
-	{
-		float y = (float) event->y() / (float) height();
-
+    {
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+        float y = (float) event->y() / (float) height();
+#else
+        float y = (float) event->position().y() / (float) height();
+#endif
 		if (y < 0 || y > 1)
 		{
 			return;
 		}
 
 		float dB = reverseProjectY(y);
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
         setBand(getIndexUnderMouse(event->x()), dB, false, true);
+#else
+        setBand(getIndexUnderMouse(event->position().x()), dB, false, true);
+#endif
 	}
 }
 
